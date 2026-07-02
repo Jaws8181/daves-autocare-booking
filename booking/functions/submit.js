@@ -1,5 +1,3 @@
-import { EmailMessage } from "cloudflare:email";
-
 export async function onRequestPost({ request, env }) {
   try {
     const formData = await request.formData();
@@ -82,24 +80,25 @@ export async function onRequestPost({ request, env }) {
 
     const subject = `Booking Request — ${fields.name} | ${fields.year} ${fields.make} ${fields.model} | ${fields.date}`;
 
-    const rawEmail = [
-      `MIME-Version: 1.0`,
-      `From: Barrie AutoCare Booking <booking@barriewebautomation.com>`,
-      `To: ${env.NOTIFY_EMAIL}`,
-      `Reply-To: ${fields.email}`,
-      `Subject: ${subject}`,
-      `Content-Type: text/html; charset=UTF-8`,
-      ``,
-      emailHtml,
-    ].join('\r\n');
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Barrie AutoCare Booking <booking@barriewebautomation.com>',
+        to: [env.NOTIFY_EMAIL],
+        reply_to: fields.email,
+        subject,
+        html: emailHtml,
+      }),
+    });
 
-    const message = new EmailMessage(
-      'booking@barriewebautomation.com',
-      env.NOTIFY_EMAIL,
-      rawEmail
-    );
-
-    await env.EMAIL.send(message);
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(`Resend error: ${err}`);
+    }
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
