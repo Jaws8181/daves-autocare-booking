@@ -19,7 +19,7 @@ export async function onRequestPost({ request, env }) {
     // Build pre-filled mailto link for Dave's confirm button
     const confirmSubject = encodeURIComponent(`Your Appointment is Confirmed — Barrie AutoCare`);
     const confirmBody = encodeURIComponent(
-      `Hi ${fields.name},\n\nYour appointment is confirmed!\n\nService: ${fields.service}\nDate: ${fields.date}\nTime: ${fields.time}\nVehicle: ${fields.year} ${fields.make} ${fields.model}\n\nIf you have any questions, feel free to reply to this email or give us a call.\n\nSee you then!\nBarrie AutoCare`
+      `Hi ${fields.name},\n\nYour appointment is confirmed!\n\nService: ${fields.service}\nDate: ${fields.date}\nTime: ${fields.time}\nVehicle: ${fields.year} ${fields.make} ${fields.model}\n\nIf you have any questions, feel free to reply to this email or give us a call.\n\nSee you then!\nBarrie AutoCare\n10 Sarjeant Dr, Barrie, ON L4N 4V8\n705-719-0773`
     );
     const mailtoLink = `mailto:${fields.email}?subject=${confirmSubject}&body=${confirmBody}`;
 
