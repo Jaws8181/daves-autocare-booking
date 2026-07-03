@@ -183,7 +183,7 @@ export async function onRequestPost({ request, env }) {
             unsubscribe: false,
           }),
         });
-      } catch (_) { /* don't fail the submission if PocketBase save fails */ }
+      } catch (pbErr) { console.error('PocketBase subscriber save failed:', pbErr); }
     }
 
     return new Response(JSON.stringify({ success: true }), {
