@@ -27,7 +27,7 @@ export async function onRequestPost({ request, env }) {
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: #dc2626; padding: 20px 24px; border-radius: 8px 8px 0 0;">
           <h2 style="color: white; margin: 0; font-size: 20px;">New Appointment Request</h2>
-          <p style="color: #fca5a5; margin: 4px 0 0; font-size: 14px;">Barrie AutoCare Online Booking</p>
+          <p style="color: #fca5a5; margin: 4px 0 0; font-size: 14px;">10 Sarjeant Dr, Barrie, ON · L4N 4V8</p>
         </div>
 
         <div style="background: #f9fafb; padding: 24px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
@@ -120,7 +120,7 @@ export async function onRequestPost({ request, env }) {
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: #dc2626; padding: 20px 24px; border-radius: 8px 8px 0 0;">
             <h2 style="color: white; margin: 0; font-size: 20px;">Booking Request Received</h2>
-            <p style="color: #fca5a5; margin: 4px 0 0; font-size: 14px;">Barrie AutoCare</p>
+            <p style="color: #fca5a5; margin: 4px 0 0; font-size: 14px;">10 Sarjeant Dr, Barrie, ON · L4N 4V8</p>
           </div>
           <div style="background: #f9fafb; padding: 24px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
             <p style="font-size: 15px; color: #111827; margin-top: 0;">Hi ${fields.name}, thanks for reaching out! We've received your booking request and will be in touch shortly to confirm your appointment.</p>
