@@ -171,10 +171,9 @@ export async function onRequestPost({ request, env }) {
 
     // Save subscriber to PocketBase if opted in
     const subscribe = formData.get('subscribe');
-    let pbDebug = { subscribe, hasEmail: fields.email !== '—', pbUrl: env.DAVE_PB_URL || 'MISSING' };
     if (subscribe === 'yes' && fields.email && fields.email !== '—') {
       try {
-        const pbRes = await fetch(`${env.DAVE_PB_URL}/api/collections/subscribers/records`, {
+        await fetch(`${env.DAVE_PB_URL}/api/collections/subscribers/records`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -184,15 +183,10 @@ export async function onRequestPost({ request, env }) {
             unsubscribe: false,
           }),
         });
-        pbDebug.pbStatus = pbRes.status;
-        if (!pbRes.ok) pbDebug.pbError = await pbRes.text();
-      } catch (pbErr) {
-        pbDebug.pbException = pbErr.message;
-        console.error('PocketBase subscriber save failed:', pbErr);
-      }
+      } catch (pbErr) { console.error('PocketBase subscriber save failed:', pbErr); }
     }
 
-    return new Response(JSON.stringify({ success: true, pbDebug }), {
+    return new Response(JSON.stringify({ success: true }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
