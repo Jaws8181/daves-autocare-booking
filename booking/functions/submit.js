@@ -169,6 +169,23 @@ export async function onRequestPost({ request, env }) {
       });
     }
 
+    // Save subscriber to PocketBase if opted in
+    const subscribe = formData.get('subscribe');
+    if (subscribe === 'yes' && fields.email && fields.email !== '—') {
+      try {
+        await fetch(`${env.DAVE_PB_URL}/api/collections/subscribers/records`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: fields.email,
+            name: fields.name,
+            source: 'booking-form',
+            unsubscribe: false,
+          }),
+        });
+      } catch (_) { /* don't fail the submission if PocketBase save fails */ }
+    }
+
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
