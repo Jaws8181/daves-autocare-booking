@@ -175,7 +175,7 @@
       // Generate slots from 8:00am to lastHour in 30-min increments
       for (let h = 8; h <= lastHour; h++) {
         for (let m = 0; m < 60; m += 30) {
-          if (h === lastHour && m > 0) break; // stop at e.g. 5:00 PM, not 5:30
+          if (h === lastHour && m > 30) break; // last slot is 30 min before close
           const label = formatTime(h, m);
           const opt = document.createElement('option');
           opt.value = label;
@@ -207,7 +207,7 @@
         weekendMsg.classList.add('hidden');
         dateInput.setCustomValidity('');
         // Fri (5) closes at 5pm → last slot 5:00; Mon–Thu (1–4) closes at 6pm → last slot 6:00
-        const lastHour = dow === 5 ? 17 : 18;
+        const lastHour = dow === 5 ? 16 : 17; // last slot 30 min before close (Fri 4:30, Mon–Thu 5:30)
         populateTimes(lastHour);
       }
     });
