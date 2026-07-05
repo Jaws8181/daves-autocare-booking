@@ -169,8 +169,24 @@ export async function onRequestPost({ request, env }) {
       });
     }
 
-    // Save subscriber to PocketBase if opted in
+    // Save contact to PocketBase
     const subscribe = formData.get('subscribe');
+    try {
+      await fetch(`${env.DAVE_PB_URL}/api/collections/contacts/records`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: fields.name,
+          email: fields.email,
+          phone: fields.phone,
+          service: `${fields.service} — ${fields.date} ${fields.time} — ${fields.year} ${fields.make} ${fields.model}`,
+          message: fields.comments,
+          subscribed: subscribe === 'yes',
+        }),
+      });
+    } catch (pbErr) { console.error('PocketBase contact save failed:', pbErr); }
+
+    // Save subscriber to PocketBase if opted in
     if (subscribe === 'yes' && fields.email && fields.email !== '—') {
       try {
         await fetch(`${env.DAVE_PB_URL}/api/collections/subscribers/records`, {
